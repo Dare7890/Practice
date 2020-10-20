@@ -10,11 +10,11 @@
 
 Вы тоже можете узнать про markdown из статей: 
 
-1. https://ru.wikipedia.org/wiki/Markdown
+* https://ru.wikipedia.org/wiki/Markdown
 
-2. https://en.wikipedia.org/wiki/Markdown
+* https://en.wikipedia.org/wiki/Markdown
 
-3. https://guides.github.com/features/mastering-markdown/
+* https://guides.github.com/features/mastering-markdown/
 
  
 
