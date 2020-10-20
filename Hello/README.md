@@ -6,15 +6,15 @@
 
  
 
-#Markdown
+# Markdown
 
 Вы тоже можете узнать про markdown из статей: 
 
-1. (https://ru.wikipedia.org/wiki/Markdown)
+1. https://ru.wikipedia.org/wiki/Markdown
 
-1. (https://en.wikipedia.org/wiki/Markdown)
+2. https://en.wikipedia.org/wiki/Markdown
 
-1. (https://guides.github.com/features/mastering-markdown/
+3. https://guides.github.com/features/mastering-markdown/
 
  
 
@@ -42,7 +42,7 @@ Website  |  [daringfireball](http://daringfireball.net/projects/markdown)
 
  
 
-##Реальный пример
+## Реальный пример
 
 [github](https://github.com/Microsoft/TypeScript/blob/master/README.md)
 
