@@ -1,2 +1,3 @@
 # Practice
-Projects for inner courses
+Projects for **inner courses**
+
