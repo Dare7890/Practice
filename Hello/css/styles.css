@@ -21,7 +21,6 @@ body {
 
 .content {
   margin: 0px;
-  border: 1px solid black;
   height: 1175px;
   display: flex;
   justify-content: space-between;
@@ -29,7 +28,6 @@ body {
 
 .content-advertising {
   width: 635px;
-  border: 1px solid black;
 }
 
 .content-timeline {
@@ -40,7 +38,6 @@ body {
 
 .content-news {
   width: 625px;
-  border: 1px solid black;
 }
 
 .content-advertising {
@@ -55,25 +52,21 @@ body {
 .advertising-secretvelet {
   background-color: white;
   flex-basis: 340px;
-  border: 1px solid black;
 }
 
 .advertising-cortix {
   background-color: white;
   flex-basis: 320px;
-  border: 1px solid black;
 }
 
 .advertising-ademe {
   background-color: white;
   flex-basis: 170px;
-  border: 1px solid black;
 }
 
 .advertising-toonga {
   background-color: white;
   flex-basis: 170px;
-  border: 1px solid black;
 }
 
 .content-news {
@@ -94,7 +87,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 288px;
-  border-bottom: 1px solid black;
   gap: 30px;
 }
 
@@ -106,25 +98,21 @@ body {
 .news-rating {
   background-color: #dbe1e8;
   flex-basis: 130px;
-  border: 1px solid black;
 }
 
 .news-yelp {
   background-color: #dbe1e8;
   flex-basis: 168px;
-  border: 1px solid black;
 }
 
 .news-qoqa {
   background-color: #dbe1e8;
   flex-basis: 170px;
-  border: 1px solid black;
 }
 
 .footer {
   height: 125px;
   width: 1350px;
-  border: 1px solid black;
   display: flex;
 }
 
@@ -305,7 +293,6 @@ body {
   grid-row-start: 3;
   grid-row-end: 4;
   display: flex;
-  border-bottom: 1px solid black;
   gap: 44px;
   margin-left: 26px;
   margin-top: 22px;
@@ -354,6 +341,10 @@ body {
   margin-left: 20px;
 }
 
+.advertising-toonga p {
+  margin-left: 20px;
+}
+
 .advertising-cortix p {
   margin-left: 20px;
 }
@@ -362,7 +353,11 @@ body {
   margin-left: 20px;
 }
 
-.advertising-toonga p {
+.news-yelp p {
+  margin-left: 20px;
+}
+
+.advertising-yelp p {
   margin-left: 20px;
 }
 
@@ -417,6 +412,13 @@ body {
   margin-left: 10px;
 }
 
+.yelp-city {
+  width: 140px;
+  background: #dbe1e8 url("../images/geo1.png") 8px no-repeat;
+  margin-left: 10px;
+  margin-top: -10px;
+}
+
 .secretvelet-city p {
   padding-left: 12px;
   color: #9ea7b4;
@@ -432,6 +434,12 @@ body {
 .secretvelet-year {
   width: 232px;
   background: white url("../images/reload.png") 10px no-repeat;
+}
+
+.yelp-year {
+  width: 232px;
+  background: #dbe1e8 url("../images/reload1.png") 12px no-repeat;
+  margin-top: -10px;
 }
 
 .cortix-list {
@@ -482,4 +490,129 @@ body {
   margin-top: -25px;
   color: #04bca6;
   font-size: 20px;
+}
+
+.toonga-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.toonga-button {
+  width: 218px;
+  height: 38px;
+  color: white;
+  background-color: #b0bbca;
+  margin-right: 21px;
+  margin-top: -14px;
+  border-radius: 3px;
+  font-size: 17px;
+}
+
+.secretvelet-name,
+.toonga-description {
+  display: inline-block;
+}
+
+.toonga-description p {
+  color: #9ea7b4;
+  margin-left: 4px;
+  font-size: 18px;
+  margin-top: 34px;
+}
+
+.toonga-level p {
+  display: block;
+  margin-top: -25px;
+  color: #04bca6;
+  font-size: 20px;
+}
+
+.yelp-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 44px;
+}
+
+.yelp-button {
+  width: 218px;
+  height: 38px;
+  color: white;
+  background-color: #10cdc1;
+  margin-right: 21px;
+  margin-top: -12px;
+  border-radius: 3px;
+  font-size: 15px;
+}
+
+.yelp-name,
+.yelp-description {
+  display: inline-block;
+}
+
+.yelp-description p {
+  color: #9ea7b4;
+  margin-left: 10px;
+  font-size: 16px;
+  margin-top: 34px;
+}
+
+.yelp-level p {
+  display: block;
+  margin-top: 6px;
+  color: #00b9d8;
+  font-size: 17px;
+}
+
+.qoqa-level p {
+  display: block;
+  margin-top: 10px;
+  color: #00b9d8;
+  font-size: 17px;
+}
+
+.yelp-city p {
+  padding-left: 12px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.yelp-year p {
+  padding-left: 15px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.yelp-name p {
+  color: #33495f;
+  font-size: 22px;
+}
+
+.qoqa-city p {
+  padding-left: 12px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+.qoqa-year p {
+  padding-left: 15px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.qoqa-city {
+  width: 140px;
+  background: #dbe1e8 url("../images/geo1.png") 8px no-repeat;
+  margin-left: 10px;
+  margin-top: -8px;
+}
+
+.qoqa-year {
+  width: 232px;
+  background: #dbe1e8 url("../images/reload1.png") 12px no-repeat;
+  margin-top: -2px;
 }
