@@ -762,3 +762,107 @@ body {
   height: 85px;
   margin-right: 6px;
 }
+
+.progress div {
+  margin-top: 25px;
+  margin-left: 10px;
+}
+
+.progress div progress {
+  width: 268px;
+}
+
+.progress {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.progress .right-progress {
+  margin-left: 42px;
+}
+
+.progress label {
+  position: relative;
+  bottom: 4px;
+  left: 1px;
+  font-size: 16px;
+}
+
+.progress .right-progress progress::-webkit-progress-value {
+  background-color: #16c4ec;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.progress .left-progress progress::-webkit-progress-value {
+  background-color: #10cdc1;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.progress progress::-webkit-progress-bar {
+  background-color: #dbe1e8;
+  border-radius: 10px;
+}
+
+.number {
+  width: 38px;
+  height: 18px;
+  background-color: #34495e;
+  border-radius: 5px;
+  color: #f5f6f6;
+  position: absolute;
+  font-size: 10px;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.number::after {
+  content: "";
+  position: absolute; /* Абсолютное позиционирование */
+  left: 15px;
+  bottom: -7px; /* Положение треугольника */
+  border: 4px solid transparent; /* Прозрачные границы */
+  border-top: 5px solid #34495e; /* Добавляем треугольник */
+}
+
+.progress-number1 {
+  top: 1314px;
+  left: 1016px;
+}
+
+.progress-number5 {
+  top: 1314px;
+  right: 163px;
+}
+
+.progress-number2 {
+  top: 1369px;
+  left: 943px;
+}
+
+.progress-number6 {
+  top: 1369px;
+  right: 146px;
+}
+
+.progress-number3 {
+  top: 1424px;
+  left: 1050px;
+}
+
+.progress-number7 {
+  top: 1426px;
+  right: 196px;
+}
+
+.progress-number4 {
+  top: 1479px;
+  left: 1025px;
+}
+
+.progress-number8 {
+  top: 1479px;
+  right: 162px;
+}
