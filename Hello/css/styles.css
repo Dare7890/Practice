@@ -357,6 +357,14 @@ body {
   margin-left: 20px;
 }
 
+.news-ecole p {
+  margin-left: 22px;
+}
+
+.news-cefire p {
+  margin-left: 22px;
+}
+
 .advertising-yelp p {
   margin-left: 20px;
 }
@@ -514,6 +522,11 @@ body {
   display: inline-block;
 }
 
+.yelp-description,
+.yelp-name {
+  display: inline-block;
+}
+
 .toonga-description p {
   color: #9ea7b4;
   margin-left: 4px;
@@ -615,4 +628,74 @@ body {
   width: 232px;
   background: #dbe1e8 url("../images/reload1.png") 12px no-repeat;
   margin-top: -2px;
+}
+
+.cefire-city p {
+  padding-left: 10px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+.cefire-city {
+  width: 140px;
+  background: #dbe1e8 url("../images/geo1.png") 8px no-repeat;
+  margin-left: 10px;
+  margin-top: -8px;
+}
+
+.cefire-year {
+  width: 232px;
+  background: #dbe1e8 url("../images/reload1.png") 12px no-repeat;
+  margin-top: -2px;
+  margin-right: 115px;
+}
+
+.cefire-level p {
+  display: block;
+  margin-top: 10px;
+  color: #04bca6;
+  font-size: 17px;
+}
+
+.cefire-description {
+  margin-top: 3px;
+}
+
+.cefire-icons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.cefire-year p {
+  padding-left: 12px;
+  color: #33495f;
+  font-size: 13px;
+  margin-top: 0px;
+}
+
+.star {
+  display: flex;
+  margin-right: 25px;
+  margin-top: -4px;
+  justify-content: right;
+}
+
+.full-star {
+  background: #dbe1e8 url("../images/star.png") 0px no-repeat;
+  width: 20px;
+  height: 20px;
+}
+
+.semi-star {
+  background: #dbe1e8 url("../images/semi-star.png") 0px no-repeat;
+  width: 20px;
+  height: 20px;
+}
+
+.empty-star {
+  background: #dbe1e8 url("../images/empty_star.png") 0px no-repeat;
+  width: 20px;
+  height: 20px;
 }
