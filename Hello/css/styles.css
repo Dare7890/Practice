@@ -699,3 +699,66 @@ body {
   width: 20px;
   height: 20px;
 }
+
+.menu-hobbies {
+  display: flex;
+  margin-top: 15px;
+  justify-content: space-around;
+  font-size: 13px;
+  gap: 3px;
+}
+
+.menu-hobbies p {
+  margin-top: 90px;
+}
+
+.menu-hobbies div p {
+  margin-left: 6px;
+}
+
+.menu-hobbies div:nth-child(2) p {
+  margin-left: 18px;
+}
+
+.menu-hobbies div:first-child p {
+  margin-left: 8px;
+}
+
+.hobbies-web {
+  background: white url("../images/monitor.png") 5px no-repeat;
+  width: 85px;
+  height: 85px;
+  margin-left: 3px;
+}
+
+.hobbies-serivore {
+  background: white url("../images/cadr.png") 5px no-repeat;
+  width: 90px;
+  height: 85px;
+}
+
+.hobbies-melomane {
+  background: white url("../images/player.png") 5px no-repeat;
+  width: 88px;
+  height: 85px;
+}
+
+.hobbies-fashion {
+  background: white url("../images/diamond.png") 5px no-repeat;
+  width: 85px;
+  height: 85px;
+}
+
+.hobbies-eat {
+  background: white url("../images/eat.png") 5px no-repeat;
+  width: 85px;
+  height: 85px;
+  margin-right: 4px;
+}
+
+.hobbies-voyage {
+  background: white url("../images/fly.png") 5px no-repeat;
+  width: 85px;
+  height: 85px;
+  margin-right: 6px;
+}
