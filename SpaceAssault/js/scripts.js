@@ -72,7 +72,7 @@ var isGameOver;
 var terrainPattern;
 
 var score = 0;
-var scoreManna = -1;
+var scoreManna = 0;
 var scoreEl = document.getElementById('score');
 var scoreMan = document.getElementById('scoreManna');
 
