@@ -21,7 +21,6 @@ var lastTime;
 function main() {
     var now = Date.now();
     var dt = (now - lastTime) / 1000.0;
-
     update(dt);
     render();
 
@@ -38,14 +37,20 @@ function init() {
 
     reset();
     lastTime = Date.now();
+    createMegalit();
     main();
 }
 
 resources.load([
     'img/sprites.png',
-    'img/terrain.png'
+    'img/terrain.png',
+    'img/sprites_02.png'
 ]);
 resources.onReady(init);
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
 
 // Game state
 var player = {
@@ -56,6 +61,7 @@ var player = {
 var bullets = [];
 var enemies = [];
 var explosions = [];
+var megalit = [];
 
 var lastFire = Date.now();
 var gameTime = 0;
@@ -69,6 +75,16 @@ var scoreEl = document.getElementById('score');
 var playerSpeed = 200;
 var bulletSpeed = 500;
 var enemySpeed = 100;
+var megalitSpeed = 0;
+
+function createMegalit(){
+    var countOfMegalit = getRandomInt(3, 5);
+    for (var i = 0; i < countOfMegalit; i++){
+        megalit.push({pos: [getRandomInt(0, canvas.width - 100), getRandomInt(0, canvas.height - 100)],
+        sprite: new Sprite('img/sprites_02.png', [0, 205], [50, 110], 0, 0)});
+    }
+}
+
 
 // Update game objects
 function update(dt) {
@@ -76,7 +92,6 @@ function update(dt) {
 
     handleInput(dt);
     updateEntities(dt);
-
     // It gets harder over time by adding enemies using this
     // equation: 1-.993^gameTime
     if(Math.random() < 1 - Math.pow(.993, gameTime)) {
@@ -87,9 +102,8 @@ function update(dt) {
                                6, [0, 1, 2, 3, 2, 1])
         });
     }
-
+    checkCollisionsMegalits();
     checkCollisions();
-
     scoreEl.innerHTML = score;
 };
 
@@ -155,7 +169,17 @@ function updateEntities(dt) {
 
     // Update all the enemies
     for(var i=0; i<enemies.length; i++) {
-        enemies[i].pos[0] -= enemySpeed * dt;
+        for(var j=0; j<megalit.length; j++) {
+            if((enemies[i].pos[0] > megalit[j].pos[0] && enemies[i].pos[0] < megalit[j].pos[0] +
+                megalit[j].sprite.size[0]) && (enemies[i].pos[1] > megalit[j].pos[1] && enemies[i].pos[1] <
+                megalit[j].pos[1]+megalit[j].sprite.size[1])){
+                    if (enemies[i].pos[1] + 100 + enemies[i].sprite.size[1] < canvas.height)    
+                    enemies[i].pos[1] += 100;
+                    else    
+                    enemies[i].pos[1] -= 100;
+                }
+            }
+            enemies[i].pos[0] -= enemySpeed * dt;
         enemies[i].sprite.update(dt);
 
         // Remove if offscreen
@@ -191,9 +215,27 @@ function boxCollides(pos, size, pos2, size2) {
                     pos2[0] + size2[0], pos2[1] + size2[1]);
 }
 
+function checkCollisionsMegalits(){
+
+    for(var i=0; i< megalit.length; i++) {
+        var pos = megalit[i].pos;
+        var size = megalit[i].sprite.size;
+
+        for(var j=0; j<bullets.length; j++) {
+            var pos2 = bullets[j].pos;
+            var size2 = bullets[j].sprite.size;
+
+            if(boxCollides(pos, size, pos2, size2)) {
+                bullets.splice(j, 1);
+                break;
+            }
+        }
+    }
+}
+
 function checkCollisions() {
     checkPlayerBounds();
-    
+    stopBeforeMegalit();
     // Run collision detection for all enemies and bullets
     for(var i=0; i<enemies.length; i++) {
         var pos = enemies[i].pos;
@@ -235,6 +277,22 @@ function checkCollisions() {
     }
 }
 
+function stopBeforeMegalit(){
+    for(var i=0; i<megalit.length; i++) {
+        if(player.pos[0] > megalit[i].pos[0] -30 && player.pos[0] < megalit[i].pos[0] +
+            megalit[i].sprite.size[0] && player.pos[1] > megalit[i].pos[1] && player.pos[1] < 
+            megalit[i].pos[1]+megalit[i].sprite.size[1]){
+                player.pos[0] -= megalit[i].sprite.size[0] / 2 - 20;
+            }
+
+        if((player.pos[0] > megalit[i].pos[0] && player.pos[0] < megalit[i].pos[0] +
+                megalit[i].sprite.size[0]) && (player.pos[1] > megalit[i].pos[1] && player.pos[1] <
+                megalit[i].pos[1]+megalit[i].sprite.size[1])){
+                    player.pos[0] += megalit[i].sprite.size[1] / 2 - 40;
+                }
+    }
+}
+
 function checkPlayerBounds() {
     // Check bounds
     if(player.pos[0] < 0) {
@@ -265,6 +323,7 @@ function render() {
     renderEntities(bullets);
     renderEntities(enemies);
     renderEntities(explosions);
+    renderEntities(megalit);
 };
 
 function renderEntities(list) {
