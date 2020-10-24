@@ -28,8 +28,18 @@ canvas {
   color: #757575;
 }
 
+.result {
+  display: flex;
+  justify-content: space-between;
+}
+
 #score {
-  float: right;
+  color: white;
+  font-size: 2em;
+  margin-left: 30px;
+}
+
+#scoreManna {
   color: white;
   font-size: 2em;
 }
