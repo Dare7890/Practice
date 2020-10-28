@@ -18,7 +18,7 @@ namespace Tanks
 
         public Wall(ImageList imageList1, Graphics g)
         {
-            Points = new List<Position>();
+           Points = new List<Position>();
             this.imageList1 = imageList1;
             this.g = g;
         }

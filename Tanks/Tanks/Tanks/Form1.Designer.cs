@@ -51,6 +51,9 @@
             this.imageList1.Images.SetKeyName(3, "smallWall.png");
             this.imageList1.Images.SetKeyName(4, "wideWall.png");
             this.imageList1.Images.SetKeyName(5, "Border.png");
+            this.imageList1.Images.SetKeyName(6, "Player_down.png");
+            this.imageList1.Images.SetKeyName(7, "Player_left.png");
+            this.imageList1.Images.SetKeyName(8, "Player_right.png");
             // 
             // btnStart
             // 
@@ -69,6 +72,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(700, 400);
             this.pictureBox1.TabIndex = 6;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
             // Form1
             // 
@@ -77,6 +81,7 @@
             this.ClientSize = new System.Drawing.Size(1182, 653);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnStart);
+            this.KeyPreview = true;
             this.Name = "Form1";
             this.Text = "Tanks";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

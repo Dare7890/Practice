@@ -13,12 +13,14 @@ namespace Tanks
         public int Width { get; private set; }
         public int Height { get; private set; }
         public PictureBox PictureBox { get; private set; }
+        public List<Position> borderList { get; private set; }
 
         private ImageList imageList1;
         private Graphics g;
 
         public Border(int width, int height, ImageList imageList1, Graphics g)
         {
+            borderList = new List<Position>();
             this.Width = width;
             this.Height = height;
             this.imageList1 = imageList1;
@@ -31,7 +33,9 @@ namespace Tanks
         {
             for (int i = 0; i < Width; i = i + 20)
             {
+                Position position = new Position(i, y);
                 imageList1.Draw(g, new Point(i, y), 5);
+                borderList.Add(position);
             }
         }
 
@@ -39,7 +43,9 @@ namespace Tanks
         {
             for (int i = 0; i < Height; i = i + 20)
             {
+                Position position = new Position(x, i);
                 imageList1.Draw(g, new Point(x, i), 5);
+                borderList.Add(position);
             }
         }
 

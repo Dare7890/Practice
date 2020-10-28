@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tanks
 {
-    interface ITanks
+    class AllTanks
     {
-        void Move();
     }
 }

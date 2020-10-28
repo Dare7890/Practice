@@ -8,8 +8,10 @@ namespace Tanks
 {
     class Position
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        protected List<Position> pList;
+
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Position()
         {
@@ -19,6 +21,12 @@ namespace Tanks
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public Position(Position p)
+        {
+            this.X = p.X;
+            this.Y = p.Y;
         }
     }
 }

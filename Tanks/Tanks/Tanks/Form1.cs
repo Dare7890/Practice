@@ -19,6 +19,8 @@ namespace Tanks
         int height = 400;
         Border border;
         Wall wall;
+        Kolobok kolobok;
+        AllTanks allTanks;
 
         public Form1()
         {
@@ -58,17 +60,33 @@ namespace Tanks
             wall.AddBiglWall(460, 500, 300, 380);
             wall.AddBiglWall(580, 620, 300, 380);
             wall.AddBiglWall(500, 580, 300, 320);
+
+            kolobok = new Kolobok(imageList1, g, border, wall);
+
             pictureBox1.Image = buf;
-            timer1.Enabled = true;
+            timer1.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            timer1.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
-        { 
+        {
+            pictureBox1.Image = buf;
+            this.Invalidate();
+        }
 
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            kolobok.AddKolobok(e);
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            kolobok.Move(keyData);
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }
