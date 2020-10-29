@@ -34,6 +34,10 @@
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnStart = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblTheEnd = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbCountOfTanks = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -54,6 +58,9 @@
             this.imageList1.Images.SetKeyName(6, "Player_down.png");
             this.imageList1.Images.SetKeyName(7, "Player_left.png");
             this.imageList1.Images.SetKeyName(8, "Player_right.png");
+            this.imageList1.Images.SetKeyName(9, "Enemy_Right.png");
+            this.imageList1.Images.SetKeyName(10, "Enemy_Up.png");
+            this.imageList1.Images.SetKeyName(11, "Enemy_Down.png");
             // 
             // btnStart
             // 
@@ -74,11 +81,49 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
+            // lblTheEnd
+            // 
+            this.lblTheEnd.AutoSize = true;
+            this.lblTheEnd.Location = new System.Drawing.Point(24, 389);
+            this.lblTheEnd.Name = "lblTheEnd";
+            this.lblTheEnd.Size = new System.Drawing.Size(0, 17);
+            this.lblTheEnd.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(27, 99);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(135, 17);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Количество танков";
+            // 
+            // tbCountOfTanks
+            // 
+            this.tbCountOfTanks.Location = new System.Drawing.Point(27, 136);
+            this.tbCountOfTanks.Name = "tbCountOfTanks";
+            this.tbCountOfTanks.Size = new System.Drawing.Size(130, 22);
+            this.tbCountOfTanks.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(27, 165);
+            this.label2.MaximumSize = new System.Drawing.Size(130, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(0, 17);
+            this.label2.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tbCountOfTanks);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTheEnd);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnStart);
             this.KeyPreview = true;
@@ -86,6 +131,7 @@
             this.Text = "Tanks";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -94,6 +140,10 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label lblTheEnd;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbCountOfTanks;
+        private System.Windows.Forms.Label label2;
     }
 }
 

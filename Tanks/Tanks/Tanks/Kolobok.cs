@@ -35,13 +35,18 @@ namespace Tanks
 
         public void AddKolobok(PaintEventArgs e)
         {
-            //add array to ImageFile
             e.Graphics.DrawImage(KolobokView.ImageFile, new Rectangle(CurrentPosition.X,
             CurrentPosition.Y, KolobokView.ImageFile.Width, KolobokView.ImageFile.Height));
         }
-
-        public void Move(Keys keyData)
+        
+        public async void MoveAsync(Keys keyData)
         {
+            await Task.Run(() => Move(keyData));
+        }
+
+        private void Move(Keys keyData)
+        {
+            //To Do switch
             if (keyData == Keys.Right)
             {
                 CurrentPosition.X += 20;
@@ -95,6 +100,13 @@ namespace Tanks
                     return true;
                 }
             }
+            return false;
+        }
+
+        public bool IsHitBorder(Position position)
+        {
+                if (CurrentPosition.X == position.X && CurrentPosition.Y == position.Y)
+                    return true;
             return false;
         }
 

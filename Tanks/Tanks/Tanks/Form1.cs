@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,9 +19,11 @@ namespace Tanks
         int width = 700;
         int height = 400;
         Border border;
+        int countOfTanks = 5;
         Wall wall;
         Kolobok kolobok;
         AllTanks allTanks;
+        Tank[] tank;
 
         public Form1()
         {
@@ -60,32 +63,66 @@ namespace Tanks
             wall.AddBiglWall(460, 500, 300, 380);
             wall.AddBiglWall(580, 620, 300, 380);
             wall.AddBiglWall(500, 580, 300, 320);
-
-            kolobok = new Kolobok(imageList1, g, border, wall);
-
+            //Replace
+            tank = new Tank[countOfTanks];
             pictureBox1.Image = buf;
             timer1.Enabled = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            kolobok = new Kolobok(imageList1, g, border, wall);
+
+            if (!int.TryParse(tbCountOfTanks.Text, out countOfTanks))
+                label2.Text = "Введите корректное значение";
+
+            for (int i = 0; i < countOfTanks; i++)
+            {
+                tank[i] = new Tank(imageList1, g, border, wall);
+                Thread.Sleep(50);
+            }
+            pictureBox1.Image = buf;
+            label2.Visible = false;
+            label1.Visible = false;
+            tbCountOfTanks.Visible = false;
             timer1.Start();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            for (int i = 0; i < countOfTanks; i++)
+            {
+                tank[i].Move();
+                if (kolobok.IsHitBorder(tank[i].CurrentPosition))
+                {
+                    timer1.Stop();
+                    lblTheEnd.Text = "Game Over!";
+                }
+            }
             pictureBox1.Image = buf;
             this.Invalidate();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            if (kolobok != null)
             kolobok.AddKolobok(e);
+            for (int i = 0; i < countOfTanks; i++)
+            {
+                if (tank[i] != null)
+                tank[i].AddTank(e);
+            }
+        }
+
+        public void Reset()
+        {
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            kolobok.Move(keyData);
+            if (kolobok != null)
+                kolobok.MoveAsync(keyData);
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }
