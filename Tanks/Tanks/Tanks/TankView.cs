@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    class TankView
+    class TankView : ITanksView
     {
         public Image ImageFile { get; private set; }
 

@@ -8,7 +8,6 @@ namespace Tanks
 {
     class Position
     {
-        protected List<Position> pList;
 
         public int X { get; set; }
         public int Y { get; set; }

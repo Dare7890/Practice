@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    class KolobokView
+    class KolobokView : ITanksView
     {
         public Image ImageFile { get; private set; }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -8,37 +9,62 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    class Kolobok
+    internal class Kolobok : AllTanks, ITanks
     {
-        public Position CurrentPosition { get; private set; }
-        public Position LastPosition { get; private set; }
-        public Direction Directions = new Direction();
-        public KolobokView KolobokView { get; set; }
-        public KolobokView CurrentImage { get; set; }
-        Border border;
-        Wall wall;
+        public int Score { get; private set; }
+        public bool IsGameOver { get; private set; }
+        
+        public event EventHandler HitTankEvent;
 
-        private ImageList imageList;
-        private Graphics g;
-
-        public Kolobok(ImageList imageList, Graphics g, Border border, Wall wall)
+        public Kolobok(ImageList imageList, Border border, Wall wall, int speed) : 
+            base(imageList, border, wall, speed)
         {
+            Score = 0;
+            IsGameOver = false;
             CurrentPosition = new Position(20, 20);
             LastPosition = new Position(20, 20);
             Directions = Direction.RIGHT;
-            this.imageList = imageList;
-            KolobokView = new KolobokView(imageList);
-            this.g = g;
-            this.wall = wall;
-            this.border = border;
+            TanksView = new KolobokView(imageList);
         }
 
-        public void AddKolobok(PaintEventArgs e)
+        public void InitEvent(Tank[] tanks)
         {
-            e.Graphics.DrawImage(KolobokView.ImageFile, new Rectangle(CurrentPosition.X,
-            CurrentPosition.Y, KolobokView.ImageFile.Width, KolobokView.ImageFile.Height));
+            foreach (var t in tanks)
+            {
+                t.HitKolobokEvent += Tank_HitKolobokEvent;
+            }
         }
-        
+
+        private void Tank_HitKolobokEvent(object sender, EventArgs e)
+        {
+            if (e is HitTankEventArgs)
+            {
+                HitTankEventArgs hitTankEventArgs = e as HitTankEventArgs;
+                for (int i = 0; i < hitTankEventArgs.positionsOfShot.Count; i++)
+                {
+                    if (IsHitBorder(hitTankEventArgs.positionsOfShot[i].CurrentPosition))
+                    {
+                        hitTankEventArgs.positionsOfShot[i] = null;
+                        hitTankEventArgs.positionsOfShot.Remove(hitTankEventArgs.positionsOfShot[i]);
+                        IsGameOver = true;
+                    }
+                }
+            }
+        }
+
+        private void HitTank()
+        {
+            HitTankEventArgs hitTankEventArgs = new HitTankEventArgs(positionsOfShot);
+            OnHitTank(hitTankEventArgs);
+        }
+
+        private void OnHitTank(HitTankEventArgs e)
+        {
+            EventHandler hitTankEvent = HitTankEvent;
+            hitTankEvent?.Invoke(this, e);
+        }
+
+
         public async void MoveAsync(Keys keyData)
         {
             await Task.Run(() => Move(keyData));
@@ -49,79 +75,60 @@ namespace Tanks
             //To Do switch
             if (keyData == Keys.Right)
             {
-                CurrentPosition.X += 20;
-                if (!IsHitBorder(border.borderList) && !IsHitWall(wall.Points))
+                CurrentPosition.X += (20 * Speed);
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
                 {
                     Directions = Direction.RIGHT;
-                    KolobokView.ChangeImage(imageList, Directions);
+                    TanksView.ChangeImage(imageList, Directions);
                     LastPosition.X = CurrentPosition.X;
                 }
             }
             else if (keyData == Keys.Left)
             {
-                CurrentPosition.X -= 20;
-                if (!IsHitBorder(border.borderList) && !IsHitWall(wall.Points))
+                CurrentPosition.X -= (20 * Speed);
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
                 {
                     Directions = Direction.LEFT;
-                    KolobokView.ChangeImage(imageList, Directions);
+                    TanksView.ChangeImage(imageList, Directions);
                     LastPosition.X = CurrentPosition.X;
                 }
             }
             else if (keyData == Keys.Up)
             {
-                CurrentPosition.Y -= 20;
-                if (!IsHitBorder(border.borderList) && !IsHitWall(wall.Points))
+                CurrentPosition.Y -= (20 * Speed);
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
                 {
                     Directions = Direction.UP;
-                    KolobokView.ChangeImage(imageList, Directions);
+                    TanksView.ChangeImage(imageList, Directions);
                     LastPosition.Y = CurrentPosition.Y;
                 }
             }
             else if (keyData == Keys.Down)
             {
-                CurrentPosition.Y += 20;
-                if (!IsHitBorder(border.borderList) && !IsHitWall(wall.Points))
+                CurrentPosition.Y += (20 * Speed);
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
                 {
                     Directions = Direction.DOWN;
-                    KolobokView.ChangeImage(imageList, Directions);
+                    TanksView.ChangeImage(imageList, Directions);
                     LastPosition.Y = CurrentPosition.Y;
                 }
             }
-        }
-
-        public bool IsHitBorder(List<Position> borderList)
-        {
-            foreach (var point in borderList)
+            else if (keyData == Keys.Space)
             {
-                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
-                {
-                    CurrentPosition.Y = LastPosition.Y;
-                    CurrentPosition.X = LastPosition.X;
-                    return true;
-                }
+                Shot();
             }
-            return false;
         }
 
-        public bool IsHitBorder(Position position)
+        public void EatingApple()
         {
-                if (CurrentPosition.X == position.X && CurrentPosition.Y == position.Y)
-                    return true;
-            return false;
+            Score++;
         }
 
-        public bool IsHitWall(List<Position> wallList)
+        public override void AddTanks(PaintEventArgs e)
         {
-            foreach (var point in wallList)
-            {
-                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
-                {
-                    CurrentPosition.Y = LastPosition.Y;
-                    CurrentPosition.X = LastPosition.X;
-                    return true;
-                }
-            }
-            return false;
+            e.Graphics.DrawImage(TanksView.ImageFile, new Rectangle(CurrentPosition.X,
+            CurrentPosition.Y, TanksView.ImageFile.Width, TanksView.ImageFile.Height));
+            HitTank();
         }
     }
 }

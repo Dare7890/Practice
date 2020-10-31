@@ -9,35 +9,54 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    class Tank
+    class Tank : AllTanks, ITanks
     {
-        public Position CurrentPosition { get; private set; }
-        public Position LastPosition { get; private set; }
-        public Direction Directions = new Direction();
-        public TankView TankView { get; set; }
-        public TankView CurrentImage { get; set; }
         public static BindingList<Tank> positionsOfTanks = new BindingList<Tank>();
         Random random = new Random();
-        Border border;
-        Wall wall;
+        
+        public event EventHandler HitKolobokEvent;
 
-        private ImageList imageList;
-        private Graphics g;
-
-        public Tank(ImageList imageList, Graphics g, Border border, Wall wall)
+        public Tank(ImageList imageList, Border border, Wall wall, Kolobok kolobok, int speed) : 
+            base(imageList, border, wall, speed)
         {
-            this.border = border;
-            this.wall = wall;
             CreateRandomLocation();
             LastPosition = new Position(CurrentPosition);
             Directions = Direction.RIGHT;
-            this.imageList = imageList;
-            TankView = new TankView(imageList);
-            this.g = g;
+            TanksView = new TankView(imageList);
+            kolobok.HitTankEvent += Shot_HitTankEvent; 
             positionsOfTanks.Add(this);
         }
 
-        private void CreateRandomLocation()
+        private void HitKolobok()
+        {
+            HitTankEventArgs hitTankEventArgs = new HitTankEventArgs(positionsOfShot);
+            OnHitKolobok(hitTankEventArgs);
+        }
+
+        private void OnHitKolobok(HitTankEventArgs e)
+        {
+            EventHandler hitKolobokEvent = HitKolobokEvent;
+            hitKolobokEvent?.Invoke(this, e);
+        }
+
+        private void Shot_HitTankEvent(object sender, EventArgs e)
+        {
+            if (e is HitTankEventArgs)
+            {
+                HitTankEventArgs hitTankEventArgs = e as HitTankEventArgs;
+                for (int i = 0; i < hitTankEventArgs.positionsOfShot.Count; i++)
+                {
+                    if (IsHitBorder(hitTankEventArgs.positionsOfShot[i].CurrentPosition))
+                    {
+                        CreateRandomLocation();
+                        hitTankEventArgs.positionsOfShot[i] = null;
+                        hitTankEventArgs.positionsOfShot.Remove(hitTankEventArgs.positionsOfShot[i]);
+                    }
+                }
+            }
+        }
+
+        public void CreateRandomLocation()
         {
             CurrentPosition = new Position();
 
@@ -47,15 +66,18 @@ namespace Tanks
                 int numberHeight = random.Next((int)border.Height / 20) * 20;
                 CurrentPosition.X = numberWidth;
                 CurrentPosition.Y = numberHeight;
-                if (!IsHitBorder(border.borderList) && !IsHitWall(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
                     break;
             }
         }
 
-        public void AddTank(PaintEventArgs e)
+        private bool RandomHit()
         {
-            e.Graphics.DrawImage(TankView.ImageFile, new Rectangle(CurrentPosition.X,
-            CurrentPosition.Y, TankView.ImageFile.Width, TankView.ImageFile.Height));
+            int value = random.Next(800);
+            if (value < 50)
+                return true;
+            else
+                return false;
         }
 
         private Direction RandomDirection()
@@ -82,7 +104,7 @@ namespace Tanks
             return Directions;
         }
 
-        private bool IsHitTanks()
+        public bool IsHitTanks()
         {
             if (positionsOfTanks.Where(tank => tank.CurrentPosition.X == CurrentPosition.X &&
             tank.CurrentPosition.Y == CurrentPosition.Y).Count() > 1)
@@ -96,7 +118,7 @@ namespace Tanks
             if (IsHitTanks())
             {
                 var tanks = positionsOfTanks.Where(tank => tank.CurrentPosition.X == CurrentPosition.X &&
-            tank.CurrentPosition.Y == CurrentPosition.Y && tank == this).ToList();
+            tank.CurrentPosition.Y == CurrentPosition.Y).ToList();
                 foreach (var tank in tanks)
                 {
                     for (int i = 0; i < 2; i++)
@@ -105,6 +127,7 @@ namespace Tanks
                         if ((int)tank.Directions == 4)
                             tank.Directions = 0;
                     }
+                    tank.TanksView.ChangeImage(imageList, tank.Directions);
                     tank.CurrentPosition.X = tank.LastPosition.X;
                     tank.CurrentPosition.Y = tank.LastPosition.Y;
                 }
@@ -115,73 +138,65 @@ namespace Tanks
         {
             if (Directions == Direction.RIGHT)
             {
-                CurrentPosition.X += 20;
-                if (IsHitBorder(border.borderList) || IsHitWall(wall.Points)) { }
+                CurrentPosition.X += (20 * Speed);
+                if (RandomHit())
+                    Shot();
+                if (IsHitTanks())
+                {
+                    TurnTanks();
+                    return;
+                }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
                 LastPosition.X = CurrentPosition.X;
             }
             else if (Directions == Direction.LEFT)
             {
-                CurrentPosition.X -= 20;
-                if (IsHitBorder(border.borderList) || IsHitWall(wall.Points)) { }
+                CurrentPosition.X -= (20 * Speed);
+                if (RandomHit())
+                    Shot();
+                if (IsHitTanks())
+                {
+                    TurnTanks();
+                    return;
+                }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
                 LastPosition.X = CurrentPosition.X;
             }
             else if (Directions == Direction.UP)
             {
-                CurrentPosition.Y -= 20;
-                if (IsHitBorder(border.borderList) || IsHitWall(wall.Points)) { }
+                CurrentPosition.Y -= (20 * Speed);
+                if (RandomHit())
+                    Shot();
+                if (IsHitTanks())
+                {
+                    TurnTanks();
+                    return;
+                }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
                 LastPosition.Y = CurrentPosition.Y;
             }
             else if (Directions == Direction.DOWN)
             {
-                CurrentPosition.Y += 20;
-                if (IsHitBorder(border.borderList) || IsHitWall(wall.Points)) { }
+                CurrentPosition.Y += (20 * Speed);
+                if (RandomHit())
+                    Shot();
+                if (IsHitTanks())
+                {
+                    TurnTanks();
+                    return;
+                }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
                 LastPosition.Y = CurrentPosition.Y;
             }
-            TankView.ChangeImage(imageList, Directions);
+            HitKolobok();
             Directions = RandomDirection();
-            TurnTanks();
+            TanksView.ChangeImage(imageList, Directions);
         }
 
-        public bool IsHitBorder(List<Position> borderList)
+        public override void AddTanks(PaintEventArgs e)
         {
-            foreach (var point in borderList)
-            {
-                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
-                {
-                    try
-                    {
-                        CurrentPosition.Y = LastPosition.Y;
-                        CurrentPosition.X = LastPosition.X;
-                    }
-                    catch (NullReferenceException a)
-                    {
-
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool IsHitWall(List<Position> wallList)
-        {
-            foreach (var point in wallList)
-            {
-                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
-                {
-                    try
-                    {
-                        CurrentPosition.Y = LastPosition.Y;
-                        CurrentPosition.X = LastPosition.X;
-                    }
-                    catch (NullReferenceException a)
-                    {
-
-                    }
-                    return true;
-                }
-            }
-            return false;
+            e.Graphics.DrawImage(TanksView.ImageFile, new Rectangle(CurrentPosition.X,
+            CurrentPosition.Y, TanksView.ImageFile.Width, TanksView.ImageFile.Height));
         }
     }
 }

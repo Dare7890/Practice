@@ -8,11 +8,10 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    interface ITanks
+    interface ITanksView
     {
-        Position CurrentPosition { get; }
+        Image ImageFile { get; }
 
-        void AddTanks(PaintEventArgs e);
-        bool IsHitBorder(List<Position> borderList);
+        void ChangeImage(ImageList imageList, Direction directions);
     }
 }

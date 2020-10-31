@@ -38,6 +38,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tbCountOfTanks = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.lblError = new System.Windows.Forms.Label();
+            this.tbCountOfApple = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblAmountApple = new System.Windows.Forms.Label();
+            this.btnStatistic = new System.Windows.Forms.Button();
+            this.tbSpeed = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,6 +69,9 @@
             this.imageList1.Images.SetKeyName(9, "Enemy_Right.png");
             this.imageList1.Images.SetKeyName(10, "Enemy_Up.png");
             this.imageList1.Images.SetKeyName(11, "Enemy_Down.png");
+            this.imageList1.Images.SetKeyName(12, "Apple.png");
+            this.imageList1.Images.SetKeyName(13, "Shot.png");
+            this.imageList1.Images.SetKeyName(14, "Enemy_Shot.png");
             // 
             // btnStart
             // 
@@ -84,10 +95,12 @@
             // lblTheEnd
             // 
             this.lblTheEnd.AutoSize = true;
-            this.lblTheEnd.Location = new System.Drawing.Point(24, 389);
+            this.lblTheEnd.Font = new System.Drawing.Font("Microsoft YaHei UI", 22.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTheEnd.Location = new System.Drawing.Point(480, 549);
             this.lblTheEnd.Name = "lblTheEnd";
-            this.lblTheEnd.Size = new System.Drawing.Size(0, 17);
+            this.lblTheEnd.Size = new System.Drawing.Size(0, 50);
             this.lblTheEnd.TabIndex = 7;
+            this.lblTheEnd.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -109,17 +122,98 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(27, 165);
+            this.label2.Location = new System.Drawing.Point(27, 170);
             this.label2.MaximumSize = new System.Drawing.Size(130, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 17);
             this.label2.TabIndex = 10;
+            // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(27, 272);
+            this.lblError.MaximumSize = new System.Drawing.Size(130, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 17);
+            this.lblError.TabIndex = 13;
+            // 
+            // tbCountOfApple
+            // 
+            this.tbCountOfApple.Location = new System.Drawing.Point(27, 243);
+            this.tbCountOfApple.Name = "tbCountOfApple";
+            this.tbCountOfApple.Size = new System.Drawing.Size(130, 22);
+            this.tbCountOfApple.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(27, 206);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(129, 17);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Количество яблок";
+            // 
+            // lblAmountApple
+            // 
+            this.lblAmountApple.AutoSize = true;
+            this.lblAmountApple.Location = new System.Drawing.Point(27, 98);
+            this.lblAmountApple.MaximumSize = new System.Drawing.Size(135, 0);
+            this.lblAmountApple.Name = "lblAmountApple";
+            this.lblAmountApple.Size = new System.Drawing.Size(0, 17);
+            this.lblAmountApple.TabIndex = 14;
+            // 
+            // btnStatistic
+            // 
+            this.btnStatistic.Enabled = false;
+            this.btnStatistic.Location = new System.Drawing.Point(26, 450);
+            this.btnStatistic.Name = "btnStatistic";
+            this.btnStatistic.Size = new System.Drawing.Size(130, 34);
+            this.btnStatistic.TabIndex = 16;
+            this.btnStatistic.TabStop = false;
+            this.btnStatistic.Text = "Statistic";
+            this.btnStatistic.UseVisualStyleBackColor = true;
+            this.btnStatistic.Click += new System.EventHandler(this.btnStatistic_Click);
+            // 
+            // tbSpeed
+            // 
+            this.tbSpeed.Location = new System.Drawing.Point(28, 352);
+            this.tbSpeed.Name = "tbSpeed";
+            this.tbSpeed.Size = new System.Drawing.Size(130, 22);
+            this.tbSpeed.TabIndex = 18;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(28, 315);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Скорость";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.Location = new System.Drawing.Point(28, 393);
+            this.label6.MaximumSize = new System.Drawing.Size(130, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(0, 17);
+            this.label6.TabIndex = 20;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tbSpeed);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.btnStatistic);
+            this.Controls.Add(this.lblAmountApple);
+            this.Controls.Add(this.lblError);
+            this.Controls.Add(this.tbCountOfApple);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.tbCountOfTanks);
             this.Controls.Add(this.label1);
@@ -144,6 +238,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbCountOfTanks;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblError;
+        private System.Windows.Forms.TextBox tbCountOfApple;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblAmountApple;
+        private System.Windows.Forms.Button btnStatistic;
+        private System.Windows.Forms.TextBox tbSpeed;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 
