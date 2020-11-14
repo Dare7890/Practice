@@ -150,6 +150,7 @@ body {
 
 .header-blocks {
   background-color: white;
+  position: relative;
 }
 
 .header .blocks-profile {
@@ -179,7 +180,7 @@ body {
 }
 
 .status {
-  flex-basis: 110px;
+  flex-basis: 112px;
 }
 
 .status-first {
@@ -209,14 +210,15 @@ body {
 .profile-status {
   position: relative;
   height: 78px;
-  top: 79px;
+  top: 81px;
   display: flex;
 }
 
 .profile-avatar {
+  background: transparent;
   position: absolute;
-  top: 115px;
-  left: 108px;
+  top: 35px;
+  left: 20px;
 }
 
 .blocks-text {
@@ -776,6 +778,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  position: relative;
 }
 
 .progress .right-progress {
@@ -820,51 +823,51 @@ body {
 
 .number::after {
   content: "";
-  position: absolute; /* Абсолютное позиционирование */
+  position: absolute;
   left: 15px;
-  bottom: -7px; /* Положение треугольника */
-  border: 4px solid transparent; /* Прозрачные границы */
-  border-top: 5px solid #34495e; /* Добавляем треугольник */
+  bottom: -7px;
+  border: 4px solid transparent;
+  border-top: 5px solid #34495e;
 }
 
 .progress-number1 {
-  top: 1314px;
-  left: 1016px;
+  top: 20px;
+  left: 205px;
 }
 
 .progress-number5 {
-  top: 1314px;
-  right: 163px;
+  top: 20px;
+  right: 78px;
 }
 
 .progress-number2 {
-  top: 1369px;
-  left: 943px;
+  top: 75px;
+  left: 138px;
 }
 
 .progress-number6 {
-  top: 1369px;
-  right: 146px;
+  top: 75px;
+  right: 60px;
 }
 
 .progress-number3 {
-  top: 1424px;
-  left: 1050px;
+  top: 130px;
+  left: 244px;
 }
 
 .progress-number7 {
-  top: 1426px;
-  right: 196px;
+  top: 130px;
+  right: 106px;
 }
 
 .progress-number4 {
-  top: 1479px;
-  left: 1025px;
+  top: 185px;
+  left: 218px;
 }
 
 .progress-number8 {
-  top: 1479px;
-  right: 162px;
+  top: 185px;
+  right: 80px;
 }
 
 #timeline .timeline-item:after,
