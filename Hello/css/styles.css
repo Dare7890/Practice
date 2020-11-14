@@ -161,6 +161,10 @@ body {
   width: 825px;
 }
 
+.radius-blocks {
+  border-radius: 4px;
+}
+
 .profile-charact {
   padding-left: 215px;
   display: block;
