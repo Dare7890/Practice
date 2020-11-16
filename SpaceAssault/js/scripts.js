@@ -88,6 +88,11 @@ function createMegalit(){
     for (var i = 0; i < countOfMegalit; i++){
         megalit.push({pos: [getRandomInt(0, canvas.width - 100), getRandomInt(0, canvas.height - 100)],
         sprite: new Sprite('img/sprites_02.png', [0, 205], [50, 110], 0, 0)});
+        while(boxCollides(player.pos, player.sprite.size, megalit[i].pos, megalit[i].sprite.size)){
+            megalit.pop();
+            megalit.push({pos: [getRandomInt(0, canvas.width - 100), getRandomInt(0, canvas.height - 100)],
+            sprite: new Sprite('img/sprites_02.png', [0, 215], [50, 105], 0, 0)});
+        }
     }
 }
 
@@ -96,6 +101,15 @@ function createManna(){
     for (var i = 0; i < countOfManna; i++){
         manna.push({pos: [getRandomInt(0, canvas.width - 50), getRandomInt(0, canvas.height - 50)],
         sprite: new Sprite('img/sprites_02.png', [0, 150], [55, 60], 6, [0, 1, 0])});
+        
+        for(let j = 0; j < megalit.length; j++){
+        while(boxCollides(player.pos, player.sprite.size, manna[i].pos, manna[i].sprite.size) || 
+        boxCollides(megalit[j].pos, megalit[j].sprite.size, manna[i].pos, manna[i].sprite.size)){
+            manna.pop();
+            manna.push({pos: [getRandomInt(0, canvas.width - 50), getRandomInt(0, canvas.height - 50)],
+            sprite: new Sprite('img/sprites_02.png', [0, 150], [55, 60], 6, [0, 1, 0])});
+        }
+    }
     }
 }
 
@@ -112,7 +126,7 @@ function update(dt) {
             pos: [canvas.width,
                   Math.random() * (canvas.height - 39)],
             sprite: new Sprite('img/sprites.png', [0, 78], [80, 39],
-                               6, [0, 1, 2, 3, 2, 1])
+                               6, [0, 1, 2, 3, 2, 1]), direction: false
         });
     }
     checkCollisionsMegalits();
@@ -124,19 +138,47 @@ function update(dt) {
 
 function handleInput(dt) {
     if(input.isDown('DOWN') || input.isDown('s')) {
-        player.pos[1] += playerSpeed * dt;
+        for(var i=0; i<megalit.length; i++) {
+                if (player.pos[0] > megalit[i].pos[0] - 30 && player.pos[0] < megalit[i].pos[0] +
+                    megalit[i].sprite.size[0] && player.pos[1] > megalit[i].pos[1] - 18 && player.pos[1] < 
+                    megalit[i].pos[1] + megalit[i].sprite.size[1] + 3){
+                    player.pos[1] -= playerSpeed * dt;
+                    return;}
     }
+    player.pos[1] += playerSpeed * dt;
+}
 
     if(input.isDown('UP') || input.isDown('w')) {
-        player.pos[1] -= playerSpeed * dt;
+        for(var i=0; i<megalit.length; i++) {
+                    if (player.pos[0] > megalit[i].pos[0] - 30 && player.pos[0] < megalit[i].pos[0] +
+                        megalit[i].sprite.size[0] && player.pos[1] > megalit[i].pos[1] && player.pos[1] < 
+                        megalit[i].pos[1] + megalit[i].sprite.size[1] + 3){
+                        player.pos[1] += playerSpeed * dt;
+                        return;}
+                    }
+                    player.pos[1] -= playerSpeed * dt;
     }
 
     if(input.isDown('LEFT') || input.isDown('a')) {
-        player.pos[0] -= playerSpeed * dt;
+        for(var i=0; i<megalit.length; i++) {
+                if (player.pos[1] > megalit[i].pos[1] - 15  && player.pos[1] < megalit[i].pos[1] +
+                    megalit[i].sprite.size[1] && player.pos[0] > megalit[i].pos[0] - 40 && player.pos[0] < 
+                    megalit[i].pos[0] + megalit[i].sprite.size[0] + 3){
+                    player.pos[0] += playerSpeed * dt;
+                    return;}
+                }
+                player.pos[0] -= playerSpeed * dt;
     }
 
     if(input.isDown('RIGHT') || input.isDown('d')) {
-        player.pos[0] += playerSpeed * dt;
+        for(var i=0; i<megalit.length; i++) {
+                if (player.pos[1] > megalit[i].pos[1] - 15 && player.pos[1] < megalit[i].pos[1] +
+                    megalit[i].sprite.size[1] && player.pos[0] > megalit[i].pos[0] - 40 && player.pos[0] < 
+                    megalit[i].pos[0] + megalit[i].sprite.size[0]){
+                    player.pos[0] -= playerSpeed * dt ;
+                    return;}
+                }
+                player.pos[0] += playerSpeed * dt;
     }
 
     if(input.isDown('SPACE') &&
@@ -192,21 +234,59 @@ function updateEntities(dt) {
 
     // Update all the enemies
     for(var i=0; i<enemies.length; i++) {
+        let isConf = false;
         for(var j=0; j<megalit.length; j++) {
+            //checking the border of megalits
             if((enemies[i].pos[0] > megalit[j].pos[0] && enemies[i].pos[0] < megalit[j].pos[0] +
-                megalit[j].sprite.size[0]) && (enemies[i].pos[1] > megalit[j].pos[1] && enemies[i].pos[1] <
-                megalit[j].pos[1]+megalit[j].sprite.size[1])){
-                    if (enemies[i].pos[1] + 100 + enemies[i].sprite.size[1] < canvas.height)    
-                    enemies[i].pos[1] += 100;
-                    else    
-                    enemies[i].pos[1] -= 100;
+                megalit[j].sprite.size[0]) && (enemies[i].pos[1] > megalit[j].pos[1] - 20 && enemies[i].pos[1] <
+                megalit[j].pos[1] + megalit[j].sprite.size[1]))
+                { 
+                    if (enemies[i].direction)
+                    {
+                    enemies[i].pos[1] -= dt * playerSpeed;
+
+                if (enemies[i].pos[1] - enemies[i].sprite.size[1] < 0)
+                {
+                    enemies[i].direction = false;
+        }
+            for (let index = 0; index < megalit.length; index++) {
+                if (j != index && boxCollides(megalit[index].pos, megalit[index].sprite.size, 
+                    enemies[i].pos, enemies[i].sprite.size))
+                    {
+                    enemies[i].direction = false;
+                    break;
+                    }
+            }
+        }
+                    else if (enemies[i].pos[1] + enemies[i].sprite.size[1] < canvas.height)
+                    {
+                        enemies[i].pos[1] += dt * playerSpeed;
+
+                        if (enemies[i].pos[1] + enemies[i].sprite.size[1] >= canvas.height)
+                        {
+                            enemies[i].direction = true;
+                        }
+                        for (let index = 0; index < megalit.length; index++) {
+                            if (j != index && boxCollides(megalit[index].pos, megalit[index].sprite.size, 
+                                enemies[i].pos, enemies[i].sprite.size))
+                                {
+                                enemies[i].direction = true;
+                                break;
+                                }
+                        }
+                    } 
+                    isConf = true;
                 }
             }
+            if (!isConf)
+            {
             enemies[i].pos[0] -= enemySpeed * dt;
-        enemies[i].sprite.update(dt);
+            }
+    enemies[i].sprite.update(dt);
 
         // Remove if offscreen
-        if(enemies[i].pos[0] + enemies[i].sprite.size[0] < 0) {
+        if(enemies[i].pos[0] + enemies[i].sprite.size[0] < 0)
+        {
             enemies.splice(i, 1);
             i--;
         }
@@ -275,6 +355,14 @@ function checkCollisionsManna(){
 
                 manna.push({pos: [getRandomInt(0, canvas.width - 50), getRandomInt(0, canvas.height - 50)],
                 sprite: new Sprite('img/sprites_02.png', [0, 150], [55, 60], 6, [0, 1, 0])});
+                for(let j = 0; j < megalit.length; j++){
+                    while(boxCollides(player.pos, player.sprite.size, manna[manna.length - 1].pos, manna[manna.length - 1].sprite.size) || 
+                    boxCollides(megalit[j].pos, megalit[j].sprite.size, manna[manna.length - 1].pos, manna[manna.length - 1].sprite.size)){
+                        manna.pop();
+                        manna.push({pos: [getRandomInt(0, canvas.width - 50), getRandomInt(0, canvas.height - 50)],
+                        sprite: new Sprite('img/sprites_02.png', [0, 150], [55, 60], 6, [0, 1, 0])});
+                    }
+                }
                 break;
             }
         }
@@ -282,7 +370,6 @@ function checkCollisionsManna(){
 
 function checkCollisions() {
     checkPlayerBounds();
-    stopBeforeMegalit();
     // Run collision detection for all enemies and bullets
     for(var i=0; i<enemies.length; i++) {
         var pos = enemies[i].pos;
@@ -324,21 +411,6 @@ function checkCollisions() {
     }
 }
 
-function stopBeforeMegalit(){
-    for(var i=0; i<megalit.length; i++) {
-        if(player.pos[0] > megalit[i].pos[0] -30 && player.pos[0] < megalit[i].pos[0] +
-            megalit[i].sprite.size[0] && player.pos[1] > megalit[i].pos[1] && player.pos[1] < 
-            megalit[i].pos[1]+megalit[i].sprite.size[1]){
-                player.pos[0] -= megalit[i].sprite.size[0] / 2 - 20;
-            }
-
-        if((player.pos[0] > megalit[i].pos[0] && player.pos[0] < megalit[i].pos[0] +
-                megalit[i].sprite.size[0]) && (player.pos[1] > megalit[i].pos[1] && player.pos[1] <
-                megalit[i].pos[1]+megalit[i].sprite.size[1])){
-                    player.pos[0] += megalit[i].sprite.size[1] / 2 - 40;
-                }
-    }
-}
 
 function checkPlayerBounds() {
     // Check bounds
