@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    abstract class AllTanks : ITanks
+    abstract class AllTanks : ITanks, IObjects
     {
         public Position CurrentPosition { get; internal set; }
         public Position LastPosition { get; internal set; }
@@ -18,17 +18,19 @@ namespace Tanks
         public int Speed { get; set; }
         internal Border border;
         internal Wall wall;
+        internal BrokenWall brokenWall;
         public BindingList<Shot> positionsOfShot = new BindingList<Shot>();
 
         internal ImageList imageList;
         public event EventHandler ShotEvent;
 
-        public AllTanks(ImageList imageList, Border border, Wall wall, int speed)
+        public AllTanks(ImageList imageList, Border border, Wall wall, BrokenWall brokenWall, int speed)
         {
             this.border = border;
             this.wall = wall;
             this.Speed = speed;
             this.imageList = imageList;
+            this.brokenWall = brokenWall;
         }
 
         public abstract void AddTanks(PaintEventArgs e);
@@ -37,21 +39,19 @@ namespace Tanks
         {
             foreach (var point in borderList)
             {
-                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
+                if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y && LastPosition != null)
                 {
-                    try
-                    {
                         CurrentPosition.Y = LastPosition.Y;
                         CurrentPosition.X = LastPosition.X;
-                    }
-                    catch (NullReferenceException)
-                    {
-
-                    }
                     return true;
                 }
             }
             return false;
+        }
+
+        public void AnimationOfExplotion()
+        {
+            TanksView.AnimationOfExploration(imageList);
         }
 
         public bool IsHitBorder(Position position)
@@ -74,6 +74,20 @@ namespace Tanks
             Shot shot = new Shot(imageList, this);
             positionsOfShot.Add(shot);
             OnShot(kolobokEventArgs);
+        }
+
+        public bool IsHitBorder(List<Brick> borderList)
+        {
+            foreach (var point in borderList)
+            {
+                if (CurrentPosition.X == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y && LastPosition != null)
+                    {
+                        CurrentPosition.Y = LastPosition.Y;
+                        CurrentPosition.X = LastPosition.X;
+                        return true;
+                    }
+            }
+            return false;
         }
     }
 }

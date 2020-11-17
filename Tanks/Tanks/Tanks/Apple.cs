@@ -8,20 +8,22 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-    class Apple : ITanks
+    class Apple : ITanks, IObjects
     {
         public Position CurrentPosition { get; private set; }
         public Image ImageFile { get; private set; }
         Random random = new Random();
         Border border;
         Wall wall;
+        BrokenWall brokenWall;
 
         private ImageList imageList;
 
-        public Apple(ImageList imageList, Border border, Wall wall)
+        public Apple(ImageList imageList, Border border, Wall wall, BrokenWall brokenWall)
         {
             this.border = border;
             this.wall = wall;
+            this.brokenWall = brokenWall;
             CreateRandomLocation();
             this.imageList = imageList;
             ImageFile = imageList.Images["Apple.png"];
@@ -37,7 +39,8 @@ namespace Tanks
                 int numberHeight = random.Next((int)border.Height / 20) * 20;
                 CurrentPosition.X = numberWidth;
                 CurrentPosition.Y = numberHeight;
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points) && 
+                    !IsHitBorder(brokenWall.Points))
                     break;
             }
         }
@@ -53,6 +56,16 @@ namespace Tanks
             foreach (var point in borderList)
             {
                 if (CurrentPosition.X == point.X && CurrentPosition.Y == point.Y)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool IsHitBorder(List<Brick> borderList)
+        {
+            foreach (var point in borderList)
+            {
+                if (CurrentPosition.X == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y)
                     return true;
             }
             return false;

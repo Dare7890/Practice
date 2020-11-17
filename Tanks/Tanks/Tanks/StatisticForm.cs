@@ -47,7 +47,7 @@ namespace Tanks
             {
                 try
                 {
-                    dgvStatistic.Invoke(new MethodInvoker(delegate
+                    dgvStatistic.BeginInvoke(new MethodInvoker(delegate
                     {
                         dgvStatistic.DataSource = result.ToList();
                     }));
@@ -78,6 +78,10 @@ namespace Tanks
             return false;
         }
 
+        private void StatisticForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            timer1.Stop();
+        }
     }
 
 

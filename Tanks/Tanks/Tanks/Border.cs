@@ -12,7 +12,6 @@ namespace Tanks
     {
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public PictureBox PictureBox { get; private set; }
         public List<Position> borderList { get; private set; }
 
         private ImageList imageList1;

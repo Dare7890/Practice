@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,11 +14,14 @@ namespace Tanks
     {
         public static BindingList<Tank> positionsOfTanks = new BindingList<Tank>();
         Random random = new Random();
-        
+        public Position positionOfKill;
+        public int countOfShot = 0;
+
         public event EventHandler HitKolobokEvent;
 
-        public Tank(ImageList imageList, Border border, Wall wall, Kolobok kolobok, int speed) : 
-            base(imageList, border, wall, speed)
+        public Tank(ImageList imageList, Border border, Wall wall, Kolobok kolobok, BrokenWall brokenWall,
+            int speed) : 
+            base(imageList, border, wall, brokenWall ,speed)
         {
             CreateRandomLocation();
             LastPosition = new Position(CurrentPosition);
@@ -48,6 +52,7 @@ namespace Tanks
                 {
                     if (IsHitBorder(hitTankEventArgs.positionsOfShot[i].CurrentPosition))
                     {
+                        positionOfKill = CurrentPosition;
                         CreateRandomLocation();
                         hitTankEventArgs.positionsOfShot[i] = null;
                         hitTankEventArgs.positionsOfShot.Remove(hitTankEventArgs.positionsOfShot[i]);
@@ -66,11 +71,12 @@ namespace Tanks
                 int numberHeight = random.Next((int)border.Height / 20) * 20;
                 CurrentPosition.X = numberWidth;
                 CurrentPosition.Y = numberHeight;
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points)
+                    && !IsHitBorder(brokenWall.Points))
                     break;
             }
         }
-
+        
         private bool RandomHit()
         {
             int value = random.Next(800);
@@ -146,7 +152,8 @@ namespace Tanks
                     TurnTanks();
                     return;
                 }
-                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)||
+                    IsHitBorder(brokenWall.Points)) { }
                 LastPosition.X = CurrentPosition.X;
             }
             else if (Directions == Direction.LEFT)
@@ -159,7 +166,7 @@ namespace Tanks
                     TurnTanks();
                     return;
                 }
-                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points) || IsHitBorder(brokenWall.Points)) { }
                 LastPosition.X = CurrentPosition.X;
             }
             else if (Directions == Direction.UP)
@@ -172,7 +179,7 @@ namespace Tanks
                     TurnTanks();
                     return;
                 }
-                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points) || IsHitBorder(brokenWall.Points)) { }
                 LastPosition.Y = CurrentPosition.Y;
             }
             else if (Directions == Direction.DOWN)
@@ -185,8 +192,8 @@ namespace Tanks
                     TurnTanks();
                     return;
                 }
-                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points)) { }
-                LastPosition.Y = CurrentPosition.Y;
+                if (IsHitBorder(border.borderList) || IsHitBorder(wall.Points) || IsHitBorder(brokenWall.Points)) { }
+                    LastPosition.Y = CurrentPosition.Y;
             }
             HitKolobok();
             Directions = RandomDirection();
@@ -197,6 +204,19 @@ namespace Tanks
         {
             e.Graphics.DrawImage(TanksView.ImageFile, new Rectangle(CurrentPosition.X,
             CurrentPosition.Y, TanksView.ImageFile.Width, TanksView.ImageFile.Height));
+        }
+
+        public void AddExplorationOfTanks(PaintEventArgs e)
+        {
+            var tankView = TanksView as TankView;
+            e.Graphics.DrawImage(tankView.AnimationOfExplorations(imageList), new Rectangle(positionOfKill.X,
+            positionOfKill.Y, TanksView.ImageFile.Width, TanksView.ImageFile.Height));
+            countOfShot++;
+            if (countOfShot == 3)
+            {
+                countOfShot = 0;
+                positionOfKill = null;
+            }
         }
     }
 }

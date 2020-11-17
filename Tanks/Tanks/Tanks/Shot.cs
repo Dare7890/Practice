@@ -61,12 +61,7 @@ namespace Tanks
             CurrentPosition.Y, ImageFile.Width, ImageFile.Height));
         }
 
-        public async void MoveAsync(Direction direction)
-        {
-            await Task.Run(() => Move(direction));
-        }
-
-        private void Move(KolobokEventArgs kolobokEventArgs)
+        public void Move(KolobokEventArgs kolobokEventArgs)
         {
             if (kolobokEventArgs.Directions == Direction.RIGHT)
             {
@@ -138,13 +133,97 @@ namespace Tanks
             return false;
         }
 
+        public bool IsHitBorder(List<Brick> borderList, Direction direction)
+        {
+            foreach (var point in borderList)
+            {
+                if (direction == Direction.RIGHT)
+                {
+                    if ((CurrentPosition.X) == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y)
+                        return true;
+                }
+                else if (direction == Direction.LEFT)
+                {
+                    if ((CurrentPosition.X) == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y)
+                        return true;
+                }
+                else if (direction == Direction.UP)
+                {
+                    if (CurrentPosition.X == point.CurrentPosition.X && (CurrentPosition.Y) == point.CurrentPosition.Y)
+                        return true;
+                }
+                else if (direction == Direction.DOWN)
+                {
+                    if (CurrentPosition.X == point.CurrentPosition.X && (CurrentPosition.Y) == point.CurrentPosition.Y)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        public Position HitBorderPosition(List<Position> borderList, Direction direction)
+        {
+            foreach (var point in borderList)
+            {
+                if (direction == Direction.RIGHT)
+                {
+                    if ((CurrentPosition.X + (20 * Speed)) == point.X && CurrentPosition.Y == point.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.LEFT)
+                {
+                    if ((CurrentPosition.X - (20 * Speed)) == point.X && CurrentPosition.Y == point.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.UP)
+                {
+                    if (CurrentPosition.X == point.X && (CurrentPosition.Y - (20 * Speed)) == point.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.DOWN)
+                {
+                    if (CurrentPosition.X == point.X && (CurrentPosition.Y + (20 * Speed)) == point.Y)
+                        return CurrentPosition;
+                }
+            }
+            return null;
+        }
+
+        public Position HitBorderPosition(List<Brick> borderList, Direction direction)
+        {
+            foreach (var point in borderList)
+            {
+                if (direction == Direction.RIGHT)
+                {
+                    if ((CurrentPosition.X) == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.LEFT)
+                {
+                    if ((CurrentPosition.X) == point.CurrentPosition.X && CurrentPosition.Y == point.CurrentPosition.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.UP)
+                {
+                    if (CurrentPosition.X == point.CurrentPosition.X && (CurrentPosition.Y) == point.CurrentPosition.Y)
+                        return CurrentPosition;
+                }
+                else if (direction == Direction.DOWN)
+                {
+                    if (CurrentPosition.X == point.CurrentPosition.X && (CurrentPosition.Y) == point.CurrentPosition.Y)
+                        return CurrentPosition;
+                }
+            }
+            return null;
+        }
+
         public void Dispose()
         {
         }
         
         public bool IsHitBorder(Position position)
         {
-            if (CurrentPosition.X == position.X && CurrentPosition.Y == position.Y)
+            if (CurrentPosition.X == position.X && CurrentPosition.Y == position.Y )
                 return true;
             return false;
         }

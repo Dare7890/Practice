@@ -1,6 +1,6 @@
 ﻿namespace Tanks
 {
-    partial class Form1
+    partial class Tanks
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Tanks));
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.btnStart = new System.Windows.Forms.Button();
@@ -46,6 +46,8 @@
             this.tbSpeed = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnWrite = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,6 +74,12 @@
             this.imageList1.Images.SetKeyName(12, "Apple.png");
             this.imageList1.Images.SetKeyName(13, "Shot.png");
             this.imageList1.Images.SetKeyName(14, "Enemy_Shot.png");
+            this.imageList1.Images.SetKeyName(15, "Explosion1.png");
+            this.imageList1.Images.SetKeyName(16, "Explosion2.png");
+            this.imageList1.Images.SetKeyName(17, "Explosion3.png");
+            this.imageList1.Images.SetKeyName(18, "Brick1.png");
+            this.imageList1.Images.SetKeyName(19, "Brick2.png");
+            this.imageList1.Images.SetKeyName(20, "Brick3.png");
             // 
             // btnStart
             // 
@@ -201,11 +209,33 @@
             this.label6.Size = new System.Drawing.Size(0, 17);
             this.label6.TabIndex = 20;
             // 
-            // Form1
+            // btnWrite
+            // 
+            this.btnWrite.Location = new System.Drawing.Point(32, 582);
+            this.btnWrite.Name = "btnWrite";
+            this.btnWrite.Size = new System.Drawing.Size(130, 34);
+            this.btnWrite.TabIndex = 21;
+            this.btnWrite.TabStop = false;
+            this.btnWrite.Text = "Запись";
+            this.btnWrite.UseVisualStyleBackColor = true;
+            this.btnWrite.Click += new System.EventHandler(this.btnWrite_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(27, 549);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(245, 17);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "Записать информацию об объектах";
+            // 
+            // Tanks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1182, 653);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnWrite);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.tbSpeed);
             this.Controls.Add(this.label5);
@@ -221,7 +251,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnStart);
             this.KeyPreview = true;
-            this.Name = "Form1";
+            this.Name = "Tanks";
             this.Text = "Tanks";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -246,6 +276,8 @@
         private System.Windows.Forms.TextBox tbSpeed;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnWrite;
+        private System.Windows.Forms.Label label3;
     }
 }
 

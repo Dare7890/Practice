@@ -16,8 +16,8 @@ namespace Tanks
         
         public event EventHandler HitTankEvent;
 
-        public Kolobok(ImageList imageList, Border border, Wall wall, int speed) : 
-            base(imageList, border, wall, speed)
+        public Kolobok(ImageList imageList, Border border, Wall wall, BrokenWall brokenWall, int speed) : 
+            base(imageList, border, wall, brokenWall, speed)
         {
             Score = 0;
             IsGameOver = false;
@@ -64,19 +64,14 @@ namespace Tanks
             hitTankEvent?.Invoke(this, e);
         }
 
-
-        public async void MoveAsync(Keys keyData)
-        {
-            await Task.Run(() => Move(keyData));
-        }
-
-        private void Move(Keys keyData)
+        public void Move(Keys keyData)
         {
             //To Do switch
             if (keyData == Keys.Right)
             {
                 CurrentPosition.X += (20 * Speed);
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points) && 
+                    !IsHitBorder(brokenWall.Points))
                 {
                     Directions = Direction.RIGHT;
                     TanksView.ChangeImage(imageList, Directions);
@@ -86,7 +81,8 @@ namespace Tanks
             else if (keyData == Keys.Left)
             {
                 CurrentPosition.X -= (20 * Speed);
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points) && 
+                    !IsHitBorder(brokenWall.Points))
                 {
                     Directions = Direction.LEFT;
                     TanksView.ChangeImage(imageList, Directions);
@@ -96,7 +92,8 @@ namespace Tanks
             else if (keyData == Keys.Up)
             {
                 CurrentPosition.Y -= (20 * Speed);
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points) && 
+                    !IsHitBorder(brokenWall.Points))
                 {
                     Directions = Direction.UP;
                     TanksView.ChangeImage(imageList, Directions);
@@ -106,7 +103,8 @@ namespace Tanks
             else if (keyData == Keys.Down)
             {
                 CurrentPosition.Y += (20 * Speed);
-                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points))
+                if (!IsHitBorder(border.borderList) && !IsHitBorder(wall.Points) && 
+                    !IsHitBorder(brokenWall.Points))
                 {
                     Directions = Direction.DOWN;
                     TanksView.ChangeImage(imageList, Directions);

@@ -11,6 +11,8 @@ namespace Tanks
     class KolobokView : ITanksView
     {
         public Image ImageFile { get; private set; }
+        private int stage = 0;
+
 
         public KolobokView(ImageList imageList)
         {
@@ -34,6 +36,30 @@ namespace Tanks
             else if (directions == Direction.DOWN)
             {
                 ImageFile = imageList.Images["Player_down.png"];
+            }
+        }
+
+        public void AnimationOfExploration(ImageList imageList)
+        {
+            switch (stage)
+            {
+                case 0:
+                    {
+                        ImageFile = imageList.Images["Explosion1.png"];
+                        stage++;
+                        break;
+                    }
+                case 1:
+                    {
+                        ImageFile = imageList.Images["Explosion2.png"];
+                        stage++;
+                        break;
+                    }
+                case 2:
+                    {
+                        ImageFile = imageList.Images["Explosion3.png"];
+                        break;
+                    }
             }
         }
     }

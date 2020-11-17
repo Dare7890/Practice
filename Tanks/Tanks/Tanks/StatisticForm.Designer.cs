@@ -57,6 +57,7 @@
             this.Controls.Add(this.dgvStatistic);
             this.Name = "StatisticForm";
             this.Text = "StatisticForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.StatisticForm_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.dgvStatistic)).EndInit();
             this.ResumeLayout(false);
 

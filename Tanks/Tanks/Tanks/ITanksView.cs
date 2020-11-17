@@ -12,6 +12,7 @@ namespace Tanks
     {
         Image ImageFile { get; }
 
+        void AnimationOfExploration(ImageList imageList);
         void ChangeImage(ImageList imageList, Direction directions);
     }
 }
